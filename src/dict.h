@@ -76,7 +76,7 @@ typedef struct dictEntry {
     unsigned char state;
     unsigned char writed;
     unsigned char access;
-
+    unsigned char *cur_addr;
     void *key;
     union {
         void *val[4];
@@ -85,6 +85,7 @@ typedef struct dictEntry {
         double d;
     } v;
     struct dictEntry *next;
+    
 } dictEntry;
 
 typedef struct dictType {
@@ -178,7 +179,7 @@ typedef void (dictScanFunction)(void *privdata, const dictEntry *de);
 #define dictHashKey(d, key) (d)->type->hashFunction(key)
 #define dictGetKey(he) ((he)->key)
 
-#define dictGetVal(he)      ((he)->v.val[2])
+#define dictGetVal(he)      ((he)->v.val [ *(he->cur_addr)])
 //PP ADD
 
 
